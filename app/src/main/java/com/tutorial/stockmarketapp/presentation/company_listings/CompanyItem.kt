@@ -26,7 +26,7 @@ fun CompanyItem(
             modifier = Modifier.weight(1f)
         ) {
             Row(
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = company.name,
@@ -35,7 +35,7 @@ fun CompanyItem(
                     color = MaterialTheme.colors.onBackground,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.width(4.dp)
+                    modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
@@ -43,13 +43,13 @@ fun CompanyItem(
                     fontWeight = FontWeight.Light,
                     color = MaterialTheme.colors.onBackground,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "(${company.symbols})",
-                    fontStyle = FontStyle.Italic,
-                    color = MaterialTheme.colors.onBackground,
-                )
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "(${company.symbols})",
+                fontStyle = FontStyle.Italic,
+                color = MaterialTheme.colors.onBackground
+            )
         }
     }
 }

@@ -14,25 +14,28 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.tutorial.stockmarketapp.presentation.destinations.CompanyInfoScreenDestination
 
 @Composable
 @Destination(start = true)
 fun CompanyListingScreen(
     navigator: DestinationsNavigator,
-    viewModel: CompanyListingViewModel = hiltViewModel(),
+    viewModel: CompanyListingViewModel = hiltViewModel()
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
     )
     val state = viewModel.state
     Column(
-        modifier = Modifier.fillMaxHeight()
+        modifier = Modifier.fillMaxSize()
     ) {
-        OutlinedTextField(value = state.searchQuery, onValueChange = {
-            viewModel.onEvent(
-                CompanyListingEvent.OnSearchQueryChange(it)
-            )
-        },
+        OutlinedTextField(
+            value = state.searchQuery,
+            onValueChange = {
+                viewModel.onEvent(
+                    CompanyListingEvent.OnSearchQueryChange(it)
+                )
+            },
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
@@ -48,7 +51,9 @@ fun CompanyListingScreen(
                 viewModel.onEvent(CompanyListingEvent.Refresh)
             }
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 items(state.companies.size) { i ->
                     val company = state.companies[i]
                     CompanyItem(
@@ -56,15 +61,16 @@ fun CompanyListingScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                // TODO: Navigate to Detail Screen
+                                navigator.navigate(
+                                    CompanyInfoScreenDestination(company.symbols)
+                                )
                             }
+                            .padding(16.dp)
                     )
-                    if (i < state.companies.size) {
-                        Divider(
-                            modifier = Modifier.padding(
-                                horizontal = 16.dp
-                            )
-                        )
+                    if(i < state.companies.size) {
+                        Divider(modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        ))
                     }
                 }
             }
